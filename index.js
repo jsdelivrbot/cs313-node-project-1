@@ -22,7 +22,7 @@ app.use(session({
 app.set('/views', path.join(__dirname + 'views'));
 app.set('view engine', 'ejs');
 app.get('/', getGames)
-    .get('/user', verifyLogin, function (req, res) {
+    .get('/user', function (req, res) {
         res.render(path.join('\admin'));
     })
     .get('/game/:id', getGame)
@@ -163,8 +163,7 @@ function getUser(req, response) {
   function addUser(req, res) {
     console.log("creating a new user");
   
-    var firstname = req.body.firstname;
-    var lastname = req.body.lastname;
+    var email = req.body.email;
     var username = req.body.username;
     var password = req.body.password;
     var passwordConfirm = req.body.passwordConfirm;
@@ -172,10 +171,10 @@ function getUser(req, response) {
     addUserToDb(req, function(error) {
       if (error) {
          res.status(500).json({success: false}); 
-         return res.redirect('/main.html');
+         return res.redirect('/home.ejs');
       } else {
         req.session.user = username;
-        return res.redirect('/main.html');
+        return res.redirect('/home.ejs');
   
       }
   

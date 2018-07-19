@@ -8,7 +8,12 @@
 </head>
 <body>
     <h1>User Page</h1>
-    <p><%= res.locals.user %></p>
+    <form method="POST" action="/addUser">
+        <input type="text" name="username" placeholder="username">
+        <input type="text" name="email" placeholder="email">
+        <input type="text" name="password" placeholder="password">
+        <input type="submit" name="Sign Up">
+    </form>
 </body>
 <script>
     
