@@ -25,6 +25,7 @@ app.get('/', getGames)
     .get('/user', verifyLogin, function (req, res) {
         res.render(path.join('\admin'));
     })
+    .get('/game/:id', getGame)
     .get("/new", function(req, res) {
         res.sendFile(path.join(__dirname + '/public/form.html'));
     })
@@ -117,7 +118,6 @@ function getGamesFromDb(callback) {
 function verifyLogin(req, res, next) {
     console.log(req.session.user);
     if(req.session.user != ""){
-        // response.locals.user = req.session.user;
         next();
     }
 }
@@ -134,8 +134,7 @@ function getUser(req, response) {
               return response.redirect('/main.html');
           }
     
-      });
-    
+      }); 
   }
 
   function getUserFromDb(req, callback){

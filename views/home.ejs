@@ -96,7 +96,7 @@
                         // console.log(this.responseText);
                         var json = JSON.parse(this.responseText);
                         modal.style.display = "block";
-                        // console.log(json);
+                        console.log(json);
                         document.getElementById('title').innerHTML = json.title;
                         document.getElementById('description').innerHTML = "<strong>Description:</strong> " + json.description;
                         document.getElementById('instructions').innerHTML = "<strong>Instructions:</strong> " +
