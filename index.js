@@ -11,7 +11,7 @@ const pool = new Pool({connectionString: connectionString, ssl: true});
 pool.connect();
 
 app.set('port', (process.env.PORT || 5000));
-
+app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname + 'public/')));
 app.use(session({
     name: "cookie-thing",
@@ -128,10 +128,10 @@ function getUser(req, response) {
       getUserFromDb(req, function(error, result) {
           if (error || result == null || result.length != 1) {
              response.status(500).json({success: false, message:'Username/Password incorrect'});
-             return response.redirect('/main.html'); 
+             return response.redirect('/'); 
           } else {
               req.session.user = username;
-              return response.redirect('/main.html');
+              return response.redirect('/');
           }
     
       }); 
@@ -166,15 +166,14 @@ function getUser(req, response) {
     var email = req.body.email;
     var username = req.body.username;
     var password = req.body.password;
-    var passwordConfirm = req.body.passwordConfirm;
   
     addUserToDb(req, function(error) {
       if (error) {
          res.status(500).json({success: false}); 
-         return res.redirect('/home.ejs');
+         return res.redirect('/');
       } else {
         req.session.user = username;
-        return res.redirect('/home.ejs');
+        return res.redirect('/');
   
       }
   
@@ -185,16 +184,14 @@ function getUser(req, response) {
 function addUserToDb(req, callback){
     console.log("Getting user from DB with username: " + username);
 
-    var firstname = req.body.firstname;
-    var lastname = req.body.lastname;
+    var email = req.body.email;
     var username = req.body.username;
     var password = req.body.password;
-    var passwordConfirm = req.body.passwordConfirm;
 
     
-    var sql = "INSERT INTO users(username, password, firstname, lastname) VALUES($1, $2, $3, $4)";
+    var sql = "INSERT INTO users(username, email, password) VALUES($1, $2, $3)";
   
-    var params = [username, password, firstname, lastname];
+    var params = [username, email, password];
   
     pool.query(sql, params, function(err, result){
         if (err){
